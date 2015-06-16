@@ -206,8 +206,8 @@ void Binary_Search_Tree<T>::Delete_Node(node<T> *head,T &x)
 	{
 		if(parent->left->data==x)
 		{
-			p = head->right;
-			while(head->left!=NULL && head->left->left!=NULL)
+			p = head->right; //p为要删除结点的右孩子
+			while(p->left!=NULL && p->left->left!=NULL)
 				p = p->left;
 			if(p->left!=NULL)
 			{	
@@ -215,7 +215,7 @@ void Binary_Search_Tree<T>::Delete_Node(node<T> *head,T &x)
 				Q->left = head->left;
 				parent->left = Q;
 				p->left = Q->right;
-				Q->right==NULL;	
+				Q->right=NULL;	
 			}
 			else
 			{
@@ -226,8 +226,8 @@ void Binary_Search_Tree<T>::Delete_Node(node<T> *head,T &x)
 
 		if(parent->right->data==x)
 		{
-			p = head->right;
-			while(head->left!=NULL && head->left->left!=NULL) 	
+			p = head->right; //p为要删除结点的右孩子
+			while(p->left!=NULL && p->left->left!=NULL) 	
 	       			p = p->left;
 			if(p->left!=NULL)
 			{	
@@ -235,7 +235,7 @@ void Binary_Search_Tree<T>::Delete_Node(node<T> *head,T &x)
 				Q->left = head->left; 	
 				parent->right = Q;
 				p->left = Q->right;		
-				Q->right==NULL;	
+				Q->right=NULL;	
 	
 			}	
 			else
