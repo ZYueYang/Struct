@@ -107,6 +107,21 @@ node<T>* Binary_Search_Tree<T>::Insert(node<T> *head,T &x)
 	return head;
 	
 }
+//查找值，使用递归先序遍历二叉树
+template<class T>
+void Binary_Search_Tree<T>::Find(node<T> *head,T &x)
+{
+	f = false;
+	if(head!=NULL)
+	{
+		if(head->data==x)
+		{
+			f = true;
+		}
+		Find(head->left,x);
+		Find(head->right,x);	
+	}
+}
 
 template<class T>
 void Binary_Search_Tree<T>::Insert_BST(node<T> *head,T &x)
@@ -134,9 +149,102 @@ void Binary_Search_Tree<T>::Insert_BST(node<T> *head,T &x)
 	}	
 }
 template<class T>
-void Binary_Search_Tree<T>::Delete(node<T> *head)
+void Binary_Search_Tree<T>::Delete_Node(node<T> *head,T &x)
 {
+	node<T> *parent,*p,*Q;
+//	Find(head,x);
+	//如果为空，则退出
+//	if(f==false)
+//		return;
+	//不为空时
+	while(head!=NULL)
+	{ 
+		if(head->data==x)break;//head标记待删除结点
+		parent = head; //得到的是要删除结点的父结点
+		head = (head->data>x)?head->left:head->right;
+		cout<<head->data<<endl;
+	}
+	cout<<"parent value:"<<parent->data<<endl;
+	cout<<"head value :"<<head->data<<endl;
+	 //要删除的结点为叶子结点
+	if(head->left==NULL && head->right==NULL)
+        {
+		//区分是父亲结点的左孩子还是右孩子
+		if(parent->left->data==x)
+			parent->left=NULL;
+		if(parent->right->data==x)
+			parent->right=NULL;
+		delete(head);
+		return;
+	}
 
 
+	//要删除结点只存在一个孩子
+	// 左孩子不为空，右孩子为空
+	if(head->left!=NULL && head->right==NULL)	
+	{
+		if(parent->left->data==x)
+			parent->left = parent->left->left;
+		if(parent->right->data==x)
+			parent->right = parent->right->left;
+		delete(head);
+		return;
+	}
+	//左孩子为空，右孩子不为空
+	if(head->left==NULL && head->right!=NULL)
+	{
+		if(parent->left->data==x)
+			parent->left = parent->left->right;
+		if(parent->right->data==x)
+			parent->right = parent->right->right;
 
+		delete(head);
+		return;
+	}
+	//要删除结点左右都不为空
+	if(head->left!=NULL && head->right!=NULL)
+	{
+		if(parent->left->data==x)
+		{
+			p = head->right;
+			while(head->left!=NULL && head->left->left!=NULL)
+				p = p->left;
+			if(p->left!=NULL)
+			{	
+				Q = p->left;
+				Q->left = head->left;
+				parent->left = Q;
+				p->left = Q->right;
+				Q->right==NULL;	
+			}
+			else
+			{
+				p->left = head->left;
+				parent->left = p;
+			}
+		}
+
+		if(parent->right->data==x)
+		{
+			p = head->right;
+			while(head->left!=NULL && head->left->left!=NULL) 	
+	       			p = p->left;
+			if(p->left!=NULL)
+			{	
+				Q = p->left;          		
+				Q->left = head->left; 	
+				parent->right = Q;
+				p->left = Q->right;		
+				Q->right==NULL;	
+	
+			}	
+			else
+			{
+				p->left = head->left;
+				parent->right = p;
+			}
+		}
+		delete(head);
+		return;
+	}
 }
